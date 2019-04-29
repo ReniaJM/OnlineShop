@@ -21,7 +21,7 @@ app.use(bodyPartser.urlencoded({extended:true}));
 // jest na false ab ograniczyc czytanie innych formatow tj img
 app.use(morgan('dev'));
 // loguje wszystkie zapytania na terminalu
-app.use(cors());
+app.use(cors());-
 
 app.get('/', (req, res, next ) => {
     res.json({
