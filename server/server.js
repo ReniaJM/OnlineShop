@@ -1,37 +1,33 @@
 const express = require('express');
 const morgan = require('morgan');
-// HTTP request logger middleware for node.js
-const bodyPartser = require('body-parser');
-const mongoose =  require('mongoose');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const cors = require('cors');
 
-const app = express();
 const config = require('./config');
 
-mongoose.connect(config.database,{ useNewUrlParser: true } ,err => {
-   if(err){
-       console.log(err);
-   }else{
-        console.log('connected to database');
+const app = express();
+
+// Only include useMongoClient only if your mongoose version is < 5.0.0
+mongoose.connect(config.database, {useNewUrlParser: true, useCreateIndex: true,
+   }, err => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('Connected to the database');
     }
 });
 
-app.use(bodyPartser.json());
-app.use(bodyPartser.urlencoded({extended:true}));
-// jest na false ab ograniczyc czytanie innych formatow tj img
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
-// loguje wszystkie zapytania na terminalu
-app.use(cors());-
+app.use(cors());
 
-app.get('/', (req, res, next ) => {
-    res.json({
-        user:"jnfkjdfn"
-    })
+const userRoutes = require('./routes/account');
+
+app.use('/api/accounts', userRoutes);
+
+
+app.listen(config.port, err => {
+    console.log('Magic happens on port awesome ' + config.port);
 });
-
-app.listen(config.port, err =>{
-    console.log("serwer is working on port " + config.port)
-});
-
-
-
