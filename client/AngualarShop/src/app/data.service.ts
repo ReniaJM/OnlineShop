@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import {Router, NavigationStart} from '@angular/router';
-import {RestApiService} from './rest-api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+import { NavigationStart, Router } from '@angular/router';
+
+import { RestApiService } from './rest-api.service';
+
+@Injectable()
 export class DataService {
   message = '';
-  messageType =  'danger';
+  messageType = 'danger';
+  user: any;
 
   constructor(private router: Router, private rest: RestApiService) {
     this.router.events.subscribe(event => {
@@ -16,6 +17,7 @@ export class DataService {
       }
     });
   }
+
   error(message) {
     this.messageType = 'danger';
     this.message = message;
@@ -35,13 +37,13 @@ export class DataService {
     try {
       if (localStorage.getItem('token')) {
         const data = await this.rest.get(
-          'http://localhost:3030/api/accounts/profile'
+          'http://localhost:3030/api/accounts/profile',
         );
-        this.user = data.user;
-      } catch (error) {
-        this.error(error);
+        this.user = data['user'];
+        console.log(this.user);
       }
+    } catch (e) {
+      this.error(e);
     }
   }
-
 }
