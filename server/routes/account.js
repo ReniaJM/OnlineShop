@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
+// unikalany numer dla uzytkownika
 
 const User = require('../models/user');
 const Order = require('../models/order');
@@ -12,7 +13,6 @@ router.post('/signup', (req, res, next) => {
     user.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
-    user.picture = user.gravatar();
     user.isSeller = req.body.isSeller;
 
     User.findOne({ email: req.body.email }, (err, existingUser) => {
