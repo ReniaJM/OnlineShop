@@ -76,6 +76,7 @@ const routes: Routes = [
     path: '**',
     redirectTo: '',
   },
+  // przerzucenie na Home jak nie ma wybranej strony
 ];
 
 @NgModule({

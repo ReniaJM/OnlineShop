@@ -9,8 +9,8 @@ import {Router} from '@angular/router';
 })
 export class AppComponent {
   title = 'app';
-  searchTerm = '';
   isCollapsed: true;
+  // do rwd
 
   constructor(private router: Router, private data: DataService) {
     this.data.getProfile();
@@ -22,19 +22,19 @@ export class AppComponent {
     return localStorage.getItem('token');
   }
 
-  // pobieranie tokenu
+  // pobieranie tokenu z localStorage
 
   collapse() {
     this.isCollapsed = true;
   }
 
-  // to jest do mobilemenu
+  // to jest do mobilemenu hamburger
 
   closeDropdown(dropdown) {
     dropdown.close();
   }
 
-  // zamykanie navbar dropdown
+
 
   logout() {
     this.data.user = {};
@@ -42,8 +42,4 @@ export class AppComponent {
     localStorage.clear();
     this.router.navigate(['']);
   }
-
-  search() {}
-
 }
-

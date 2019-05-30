@@ -15,6 +15,8 @@ export class DataService {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.message = '';
+        // pokazuje spinner w trakcia ladowania danych
+        // sa subscrybowane eventy
       }
     });
   }
