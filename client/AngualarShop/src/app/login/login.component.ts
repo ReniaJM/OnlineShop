@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
         if (data['success']) {
           localStorage.setItem('token', data['token']);
           await this.data.getProfile();
+          // jesli user jest zarejestrwonay podbieramy ta metode
           this.router.navigate(['/']);
         } else {
           this.data.error(data['message']);

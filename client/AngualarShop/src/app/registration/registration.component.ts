@@ -65,7 +65,8 @@ export class RegistrationComponent implements OnInit {
           // [name: string]: any;
           this.data.success('Registration success');
           await this.data.getProfile();
-          this.router.navigate(['rofile/address'])
+          // jesli user jest zarejestrwonay podbieramy ta metode i dostajemy sie do update adresu
+          this.router.navigate(['profile/address'])
           .then(() => {
             this.data.success(
               'Registration Successful! Please enter your shiping address below'

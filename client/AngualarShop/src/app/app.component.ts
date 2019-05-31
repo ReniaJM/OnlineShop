@@ -37,6 +37,7 @@ export class AppComponent {
 
 
   logout() {
+    // czyszczenie profilu jak jest user wylogowany
     this.data.user = {};
     this.data.cartItems = 0;
     localStorage.clear();

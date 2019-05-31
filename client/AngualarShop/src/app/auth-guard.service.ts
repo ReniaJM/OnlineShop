@@ -12,6 +12,8 @@ export class AuthGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (localStorage.getItem('token')) {
+      // jesli user jest zalogowany ma dostep do url zaczynajacego sie od od /profile ale blokuje rejestracje
+      // jesli nie jest zalogowany blokuje nas do profilu i mozmey sie zarejestrowac
       return state.url.startsWith('/profile')
         ? true
         : (this.router.navigate(['/']), false);

@@ -10,6 +10,7 @@
     </div>
     <h3 *ngIf="category && !category.products.length" class="display-2 text-center mt-5">No products inside category</h3>
     <div *ngIf="category && category.products.length">
+      <!--pokaz jak są załadowane produkty-->
       <p>{{lower}}-{{upper}} of{{category.totalProducts}} products in {{category.categoryName}}</p>
       <hr>
       <div class="product" *ngFor="let product of category.products">

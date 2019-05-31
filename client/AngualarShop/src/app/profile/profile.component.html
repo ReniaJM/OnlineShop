@@ -2,11 +2,12 @@
   <div class="container p-5">
     <h4 class="display-4">My Profile</h4>
     <hr>
-    <div *ngIf="!data.user" class="m-auto">
+    <div *ngIf="data.user" class="m-auto">
       <h1 class="text-center display-3 mt-5">
         <i class="fa fa-spinner fa-spin"></i>
       </h1>
     </div>
+    <!--jesli user jest zalogowany wyswitl dane-->
     <div *ngIf="data.user" class="row mt-5">
       <div class="col-md-3">
         <img [src]="data.user.picture" alt="userimage" class="rounded-circle image">
@@ -22,6 +23,7 @@
         <a routerLink="/profile/address" class="btn btn-warning">Change Shipping Address</a>
         <br>
         <br>
+        <!--jeslu user jest sellerm moze usatwic produkty na sprzedaz i ma doste do innych pól-->
         <div *ngIf="data.user.isSeller">
           <p class="lead">Seller Actions</p>
           <hr>

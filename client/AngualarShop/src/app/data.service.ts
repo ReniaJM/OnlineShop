@@ -21,6 +21,7 @@ export class DataService {
     });
   }
 
+  // wiadomosci w aplikacji do kazdego komponentu przesylane przez component message
   error(message) {
     this.messageType = 'danger';
     this.message = message;
@@ -36,25 +37,31 @@ export class DataService {
     this.message = message;
   }
 
+  // pobieranie profilu, dodawana do appc
+
   async getProfile() {
     try {
+      // jesli jest token w localStorage
       if (localStorage.getItem('token')) {
         const data = await this.rest.get(
           'http://localhost:3030/api/accounts/profile',
         );
         this.user = data['user'];
-        console.log(this.user);
+        // console.log(this.user);
       }
     } catch (e) {
       this.error(e);
     }
   }
 
+  // pobieranie produktu
   getCart() {
     const cart = localStorage.getItem('cart');
     return cart ? JSON.parse(cart) : [];
   }
 
+
+  // dodawanie produktu
   addToCart(item: string) {
     const cart: any = this.getCart();
     if (cart.find(data => JSON.stringify(data) === JSON.stringify(item))) {
@@ -67,6 +74,7 @@ export class DataService {
     }
   }
 
+  // usuwanie produktu
   removeFromCart(item: string) {
     let cart: any = this.getCart();
     if (cart.find(data => JSON.stringify(data) === JSON.stringify(item))) {
@@ -76,6 +84,7 @@ export class DataService {
     }
   }
 
+  // czyszczenie karty
   clearCart() {
     this.cartItems = 0;
     localStorage.setItem('cart', '[]');

@@ -11,18 +11,22 @@ import { RestApiService } from '../rest-api.service';
 export class SettingsComponent implements OnInit {
   btnDisabled = false;
   currentSettings: any;
+  // bedzie bindowac dane z formularza
 
   constructor(private data: DataService, private rest: RestApiService) { }
 
+  // jest odpalanay kiedy strona jest odwiedzana
   async ngOnInit() {
     try {
       if (!this.data.user) {
+        // jesli nie jest zalogownay czeka na profil
         await this.data.getProfile();
       }
       this.currentSettings = Object.assign({
         newPwd: '',
         pwdConfirm: ''
       }, this.data.user);
+      // jesi jest zalogowany password  mozna przypisac nowe haslo z confirme
     } catch (error) {
       this.data.error(error);
     }
@@ -61,6 +65,7 @@ export class SettingsComponent implements OnInit {
     try {
       if (this.validate(this.currentSettings)) {
         const data = await this.rest.post(
+          // jesli jest spelniony warunek jest update danych, przypisane nowe
           'http://localhost:3030/api/accounts/profile',
           {
             name: this.currentSettings['name'],
@@ -71,6 +76,7 @@ export class SettingsComponent implements OnInit {
         );
 
         data['success']
+          // jesli message i success  wtedy pobierz user profile
           ? (this.data.getProfile(), this.data.success(data['message']))
           : this.data.error(data['message']);
       }

@@ -12,9 +12,11 @@ export class AddressComponent implements OnInit {
   btnDisabled = false;
 
   currentAddress: any;
+  // bedzie bidować dane do html podbnie jak currentSettings: any;
 
   constructor(private data: DataService, private rest: RestApiService) { }
 
+  // jest odpalanay kiedy strona jest odwiedzana
   async ngOnInit() {
     try {
       const data = await this.rest.get(
