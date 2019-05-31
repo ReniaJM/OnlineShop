@@ -13,6 +13,7 @@ const checkJWT = require('../middlewares/check.jwt');
 router.get('/products', (req, res, next) => {
     const perPage = 10;
     const page = req.query.page;
+    // query kiedy czegos szukamy
     async.parallel([
         function(callback) {
             Product.count({}, (err, count) => {
@@ -69,21 +70,27 @@ router.route('/categories')
 
 router.get('/categories/:id', (req, res, next) => {
     const perPage = 10;
+    // pierwsza strona jest 0
     const page = req.query.page;
+    // dzieki parallel funkcje sa rodzielne i wynik jest res.json
     async.parallel([
         function(callback) {
+        // dostajemy totalna ilosc produktow, nalezacych  do konkretnej kategorii
             Product.count({ category: req.params.id }, (err, count) => {
                 var totalProducts = count;
                 callback(err, totalProducts);
             });
         },
+        // populate daje mozliowsc tworzenia instancji do obiektów
         function(callback) {
             Product.find({ category: req.params.id })
+                // ilosc produktow na strone
                 .skip(perPage * page)
+                // 10 produktow na strone limit
                 .limit(perPage)
                 .populate('category')
                 .populate('owner')
-                .populate('reviews')
+                // .populate('reviews')
                 .exec((err, products) => {
                     if(err) return next(err);
                     callback(err, products);
@@ -98,6 +105,7 @@ router.get('/categories/:id', (req, res, next) => {
         var totalProducts = results[0];
         var products = results[1];
         var category = results[2];
+        // jak jest sukces znalezenia produktów wtedy jest response z tymi polami
         res.json({
             success: true,
             message: 'category',
@@ -111,10 +119,11 @@ router.get('/categories/:id', (req, res, next) => {
 });
 
 router.get('/product/:id', (req, res, next) => {
+    // jak chcemy znalezc jeden produkt z konkretnym id
     Product.findById({ _id: req.params.id })
         .populate('category')
         .populate('owner')
-        .deepPopulate('reviews.owner')
+        // .deepPopulate('reviews.owner')
         .exec((err, product) => {
             if (err) {
                 res.json({

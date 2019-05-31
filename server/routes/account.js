@@ -78,6 +78,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.route('/profile')
+    // najpierw staruje middleware sprwadza czy jest token
     .get(checkJWT, (req, res, next) => {
         User.findOne({ _id: req.decoded.user._id }, (err, user) => {
             res.json({
@@ -90,7 +91,7 @@ router.route('/profile')
     .post(checkJWT, (req, res, next) => {
         User.findOne({ _id: req.decoded.user._id }, (err, user) => {
             if (err) return next(err);
-
+// jesli ne sa puste to jest tworzona nowa wartosc pola
             if (req.body.name) user.name = req.body.name;
             if (req.body.email) user.email = req.body.email;
             if (req.body.password) user.password = req.body.password;
@@ -108,6 +109,7 @@ router.route('/profile')
 router.route('/address')
     .get(checkJWT, (req, res, next) => {
         User.findOne({ _id: req.decoded.user._id }, (err, user) => {
+            // jest jest token to obiekt jest odkodwany i mozmey dostac sie do user id
             res.json({
                 success: true,
                 address: user.address,
@@ -118,7 +120,7 @@ router.route('/address')
     .post(checkJWT, (req, res, next) => {
         User.findOne({ _id: req.decoded.user._id }, (err, user) => {
             if (err) return next(err);
-
+// jesli ne sa puste to jest tworzona nowa wartosc pola
             if (req.body.addr1) user.address.addr1 = req.body.addr1;
             if (req.body.addr2) user.address.addr2 = req.body.addr2;
             if (req.body.city) user.address.city = req.body.city;
